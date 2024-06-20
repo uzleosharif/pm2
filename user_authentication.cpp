@@ -1,13 +1,19 @@
-// SPDX-License-Identifer: MIT
+
+// SPDX-License-Identifier: MIT
 
 #include "user_authentication.hpp"
 
-#include <string>
-
 namespace pm {
 
-auto HashPasswordViaSha256(std::string_view password) -> std::string {
-  return "";
+auto GetMasterPassword() -> std::string { return ""; }
+
+auto SaltPassword(std::span<char const> salt,
+                  std::string_view user_password) -> std::string {
+  std::string result{};
+  result.reserve(salt.size() + user_password.size());
+  rng::copy(user_password, std::back_inserter(result));
+  rng::copy(salt, std::back_inserter(result));
+  return result;
 }
 
 }  // namespace pm
