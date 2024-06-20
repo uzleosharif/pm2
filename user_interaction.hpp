@@ -2,8 +2,8 @@
 
 #pragma once
 
-namespace pm {
+namespace pm::ui {
 
 auto RunApp() -> void;
 
-}  // namespace pm
+}  // namespace pm::ui

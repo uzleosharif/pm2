@@ -18,7 +18,7 @@ auto inline WelcomeScreen() noexcept {
 
 }  // namespace
 
-namespace pm {
+namespace pm::ui {
 
 auto RunApp() -> void {
   WelcomeScreen();
@@ -29,10 +29,10 @@ auto RunApp() -> void {
           "[INFO] Currently no passwords file exists on filesystem ({})",
           kPasswordFilePath);
 
-      auto const salt{pm::GenerateSalt<pm::kSaltLength>()};
-      pm::SavePassword<pm::kDoEncryption>(
-          salt, pm::HashPassword<pm::kHashAlgorithm>(
-                    pm::SaltPassword(salt, pm::GetMasterPassword())));
+      auto const salt{ua::GenerateSalt<pm::kSaltLength>()};
+      ua::SavePassword<pm::kDoEncryption>(
+          salt, ua::HashPassword<pm::kHashAlgorithm>(
+                    ua::SaltPassword(salt, ua::GetMasterPassword())));
     } catch (const std::exception& ex) {
       std::println(
           "[ERROR] Got exception while storing the master password. Exception: "
@@ -40,8 +40,8 @@ auto RunApp() -> void {
           ex.what());
     }
   } else {
-    //
+    ua::VerifyPassword();
   }
 }
 
-}  // namespace pm
+}  // namespace pm::ui

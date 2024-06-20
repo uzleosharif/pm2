@@ -3,4 +3,4 @@
 
 #include "user_interaction.hpp"
 
-auto main() -> int { pm::RunApp(); }
+auto main() -> int { pm::ui::RunApp(); }

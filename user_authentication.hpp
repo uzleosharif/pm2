@@ -19,7 +19,7 @@
 
 namespace rng = std::ranges;
 
-namespace pm {
+namespace pm::ua {
 
 template <std::size_t salt_length>
 [[nodiscard]] auto GenerateSalt() -> std::array<char, salt_length> {
@@ -62,4 +62,6 @@ auto SavePassword(std::span<char const> salt,
             std::ostreambuf_iterator<char>(file_stream));
 }
 
-}  // namespace pm
+auto VerifyPassword() -> bool;
+
+}  // namespace pm::ua

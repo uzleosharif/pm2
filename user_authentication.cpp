@@ -28,7 +28,7 @@ auto inline EnableTerminalEcho() noexcept {
 
 }  // namespace
 
-namespace pm {
+namespace pm::ua {
 
 auto GetMasterPassword() -> std::string {
   std::string user_password{};
@@ -44,10 +44,23 @@ auto GetMasterPassword() -> std::string {
 auto SaltPassword(std::span<char const> salt,
                   std::string_view user_password) -> std::string {
   std::string result{};
+
   result.reserve(salt.size() + user_password.size());
   rng::copy(user_password, std::back_inserter(result));
   rng::copy(salt, std::back_inserter(result));
+
   return result;
 }
 
-}  // namespace pm
+auto VerifyPassword() -> bool {
+  std::string user_password{};
+
+  DisableTerminalEcho();
+  std::println("Enter your master password: ");
+  std::getline(std::cin, user_password);
+  EnableTerminalEcho();
+
+  return true;
+}
+
+}  // namespace pm::ua
