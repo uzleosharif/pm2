@@ -53,12 +53,12 @@ auto SaltPassword(std::span<char const> salt,
 }
 
 auto VerifyPassword() -> bool {
-  std::string user_password{};
+  auto user_password{GetMasterPassword()};
 
-  DisableTerminalEcho();
-  std::println("Enter your master password: ");
-  std::getline(std::cin, user_password);
-  EnableTerminalEcho();
+  // TODO:
+  // recover stored-salt and stored-hash
+  // entered_hash = HashPassword(stored_salt, user_password)
+  // entered_hash == stored_hash??
 
   return true;
 }
