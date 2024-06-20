@@ -8,5 +8,9 @@ set(CMAKE_CXX_FLAGS "-Wall -fsanitize=leak -fsanitize=address")
 
 link_directories("/usr/local/lib/")
 
-add_executable(pm main.cpp user_authentication.cpp)
+add_executable(pm 
+  main.cpp 
+  user_authentication.cpp
+  user_interaction.cpp
+)
 target_link_libraries(pm PRIVATE crypto)
