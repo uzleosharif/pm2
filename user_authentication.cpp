@@ -3,9 +3,43 @@
 
 #include "user_authentication.hpp"
 
+#include <print>
+#include <iostream>
+#include <string>
+
+#include <termios.h>
+#include <unistd.h>
+
+namespace {
+
+auto inline DisableTerminalEcho() noexcept {
+  termios settings{};
+  tcgetattr(STDIN_FILENO, &settings);
+  settings.c_lflag and_eq ~ECHO;
+  tcsetattr(STDIN_FILENO, TCSANOW, &settings);
+}
+
+auto inline EnableTerminalEcho() noexcept {
+  termios settings{};
+  tcgetattr(STDIN_FILENO, &settings);
+  settings.c_lflag or_eq ECHO;
+  tcsetattr(STDIN_FILENO, TCSANOW, &settings);
+}
+
+}  // namespace
+
 namespace pm {
 
-auto GetMasterPassword() -> std::string { return ""; }
+auto GetMasterPassword() -> std::string {
+  std::string user_password{};
+
+  DisableTerminalEcho();
+  std::println("Please set up a master password: ");
+  std::getline(std::cin, user_password);
+  EnableTerminalEcho();
+
+  return user_password;
+}
 
 auto SaltPassword(std::span<char const> salt,
                   std::string_view user_password) -> std::string {
